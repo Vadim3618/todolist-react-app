@@ -1,15 +1,20 @@
 import React from 'react';
+// import {filterValueType} from "./App";
 
-type ButtonPropsType = {
-  title: string
+type ButtonType ={
+    name:string
+    callback:()=>void
 }
 
-const Button = (props: ButtonPropsType) => {
-  return (
-    <button>
-      {props.title}
-    </button>
-  )
+export const Button = (props:ButtonType) => {
+    const onClickHandler = ()=>{
+        props.callback()
+    }
+    return (
+      <button onClick={onClickHandler}>{props.name}</button>
+    );
 };
 
-export default Button;
+
+
+
