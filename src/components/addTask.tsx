@@ -4,7 +4,8 @@ import {Button} from "./Button";
 
 type AddTaskType = {
     tasks: Array<TaskType>
-    addTask: (title: string) => void
+    tlId: string
+    addTask: (tlId: string, title: string) => void
 }
 
 export const AddTask = (props: AddTaskType) => {
@@ -12,7 +13,7 @@ export const AddTask = (props: AddTaskType) => {
     const [error, setError] = useState<string | null>(null)
     const addTaskHandler = () => {
         if (title.trim() !== '') {//любое кол-во пробелов не является правильной строкой
-            props.addTask(title.trim())//отсекаем пробелы
+            props.addTask(props.tlId, title.trim())//отсекаем пробелы
             setTitle('')//очищаем строку после добавления таски
         } else {
             setError('Title is required')//меняем error на это сообщение и перерисовываем компоненту

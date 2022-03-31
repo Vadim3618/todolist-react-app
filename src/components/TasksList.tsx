@@ -3,18 +3,19 @@ import {TaskType} from "../App";
 import {Button} from "./Button";
 
 type TasksListPropsType = {
+    tlId: string
     tasks: Array<TaskType>
-    removeTask: (id: string) => void
-    changeStatus: (id: string, isDone: boolean) => void
+    removeTask: (tlId: string, id: string) => void
+    changeStatus: (tlId: string, id: string, isDone: boolean) => void
 }
 
 export const TasksList: React.FC<TasksListPropsType> = (props) => {
 
     const onClickRemoveHandler = (id: string) => {
-        props.removeTask(id)
+        props.removeTask(props.tlId, id)
     }
     const onChangeHandler = (id: string, e: ChangeEvent<HTMLInputElement>) => {
-        props.changeStatus(id, e.currentTarget.checked)
+        props.changeStatus(props.tlId, id, e.currentTarget.checked)
     }
 
     return (
