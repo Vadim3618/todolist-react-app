@@ -3,7 +3,7 @@ import {FilterValueType, TaskType} from "../App";
 import {Button} from "./Button";
 import TodoListHeader from "./TodoListHeader";
 import {TasksList} from "./TasksList";
-import {AddTask} from "./addTask";
+import {AddItemForm} from "./AddItemForm";
 
 type TodoListPropsType = {
     tlId: string
@@ -14,6 +14,8 @@ type TodoListPropsType = {
     addTask: (tlId: string, title: string) => void
     changeFilter: (tlId: string, filter: FilterValueType) => void
     changeStatus: (tlId: string, id: string, isDone: boolean) => void
+    changeTaskTitle: (tlId: string, id: string, newValue: string) => void
+    changeTodoListTitle: (tlId: string, newValue: string) => void
 }
 
 const TodoList = (props: TodoListPropsType) => {
@@ -22,14 +24,20 @@ const TodoList = (props: TodoListPropsType) => {
         props.changeFilter(props.tlId, filter)
     }
 
+    const addTask = (title: string) => {
+        props.addTask(props.tlId, title)
+    }
+
     return (
       <div>
-          <TodoListHeader title={props.title}/>
-          <AddTask tasks={props.tasks} tlId={props.tlId} addTask={props.addTask}/>
+          <TodoListHeader changeTodoListTitle={props.changeTodoListTitle}
+                          tlId={props.tlId} title={props.title}/>
+          <AddItemForm addItem={addTask}/>
           <TasksList tasks={props.tasks}
                      removeTask={props.removeTask}
                      changeStatus={props.changeStatus}
                      tlId={props.tlId}
+                     changeTaskTitle={props.changeTaskTitle}
           />
           <div>
               <Button className={props.filter === 'all' ? 'active-filter' : ''}
@@ -47,6 +55,8 @@ const TodoList = (props: TodoListPropsType) => {
 };
 
 export default TodoList;
+
+
 
 
 

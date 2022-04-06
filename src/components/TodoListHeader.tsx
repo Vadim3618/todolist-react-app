@@ -1,15 +1,23 @@
 import React from 'react';
+import {EditableSpan} from "./EditableSpan";
 
 type TodoListHeaderPropsType = {
-  title: string
+    tlId: string
+    title: string
+    changeTodoListTitle: (tlId: string, newValue: string) => void
 }
 
 const TodoListHeader = (props: TodoListHeaderPropsType) => {
-  return (
-    <h3>
-      {props.title}
-    </h3>
-  );
+
+    const onChangeTodoTitle = (newValue: string) => {
+        props.changeTodoListTitle(props.tlId, newValue)
+    }
+
+    return (
+      <h3>
+          <EditableSpan title={props.title} onChange={onChangeTodoTitle}/>
+      </h3>
+    );
 };
 
 export default TodoListHeader;
