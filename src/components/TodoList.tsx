@@ -1,9 +1,9 @@
 import React from 'react';
 import {FilterValueType, TaskType} from "../App";
-import {Button} from "./Button";
 import TodoListHeader from "./TodoListHeader";
 import {TasksList} from "./TasksList";
 import {AddItemForm} from "./AddItemForm";
+import {Button, ButtonGroup} from "@mui/material";
 
 type TodoListPropsType = {
     tlId: string
@@ -40,15 +40,24 @@ const TodoList = (props: TodoListPropsType) => {
                      changeTaskTitle={props.changeTaskTitle}
           />
           <div>
-              <Button className={props.filter === 'all' ? 'active-filter' : ''}
-                      name={'All'}
-                      callback={() => changeFilterHandler('all')}/>
-              <Button className={props.filter === 'active' ? 'active-filter' : ''}
-                      name={'Active'}
-                      callback={() => changeFilterHandler('active')}/>
-              <Button className={props.filter === 'completed' ? 'active-filter' : ''}
-                      name={'Completed'}
-                      callback={() => changeFilterHandler('completed')}/>
+              <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                  <Button style={{width:'100px'}} color={"info"} variant={props.filter === 'all' ? 'text' : 'contained'}
+                          onClick={() => changeFilterHandler('all')}>All</Button>
+                  <Button style={{width:'100px'}} color={"info"} variant={props.filter === 'active' ? 'text' : 'contained'}
+                          onClick={() => changeFilterHandler('active')}>Active</Button>
+                  <Button style={{width:'100px'}} color={"info"} variant={props.filter === 'completed' ? 'text' : 'contained'}
+                          onClick={() => changeFilterHandler('completed')}>Finished</Button>
+              </ButtonGroup>
+
+              {/*<Button className={props.filter === 'all' ? 'active-filter' : ''}*/}
+              {/*        name={'All'}*/}
+              {/*        callback={() => changeFilterHandler('all')}/>*/}
+              {/*<Button className={props.filter === 'active' ? 'active-filter' : ''}*/}
+              {/*        name={'Active'}*/}
+              {/*        callback={() => changeFilterHandler('active')}/>*/}
+              {/*<Button className={props.filter === 'completed' ? 'active-filter' : ''}*/}
+              {/*        name={'Completed'}*/}
+              {/*        callback={() => changeFilterHandler('completed')}/>*/}
           </div>
       </div>
     );

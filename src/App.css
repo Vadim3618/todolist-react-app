@@ -1,27 +1,26 @@
 .App {
-    padding: 30px;
-    display: flex;
+    background-color: rgba(172, 213, 255, 0.23);
 }
 
-.App > div {
-    margin-right: 50px;
-}
+/*.App > div {*/
+/*    margin-right: 50px;*/
+/*}*/
 
-.error {
-    border: red 2px solid;
-}
+/*.error {*/
+/*    border: red 2px solid;*/
+/*}*/
 
-.error-message {
-    color: red;
-    font-size: 16px;
-}
+/*.error-message {*/
+/*    color: rgba(252, 76, 76, 0.99);*/
+/*    font-size: 20px;*/
+/*}*/
 
-.active-filter {
-    background-color: white;
-    font-weight: 600;
-    border: white 2px solid;
-}
+/*.active-filter {*/
+/*    background-color: white;*/
+/*    font-weight: 600;*/
+/*    border: white 2px solid;*/
+/*}*/
 
-.is-done {
-    opacity: 0.5;
-}
+/*.is-done {*/
+/*    opacity: 0.5;*/
+/*}*/

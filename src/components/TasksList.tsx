@@ -1,7 +1,11 @@
 import React, {ChangeEvent} from 'react';
 import {TaskType} from "../App";
-import {Button} from "./Button";
 import {EditableSpan} from "./EditableSpan";
+import {Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+
+
+
 
 type TasksListPropsType = {
     tlId: string
@@ -28,13 +32,11 @@ export const TasksList: React.FC<TasksListPropsType> = (props) => {
 
               return (
                 <li key={t.id}>
-                    <input type={"checkbox"}
-                           onChange={e => onChangeStatusHandler(t.id, e)}
-                           checked={t.isDone}/>
-                    {/*<span className={t.isDone ? 'is-done' : ''}>{t.title}</span>*/}
+                    <Checkbox onChange={e => onChangeStatusHandler(t.id, e)} checked={t.isDone} color={"info"}/>
                     <EditableSpan title={t.title} onChange={onChangeTaskTitle}/>
-                    <Button name={'x'} callback={() => onClickRemoveHandler(t.id)}/>
-                    {/*<button onClick={() => onClickRemoveHandler(t.id)}>x</button>*/}
+                    <IconButton>
+                        <Delete fontSize={"small"} onClick={() => onClickRemoveHandler(t.id)}/>
+                    </IconButton>
                 </li>)
           })}
       </ol>

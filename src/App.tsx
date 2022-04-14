@@ -3,7 +3,8 @@ import './App.css';
 import TodoList from "./components/TodoList";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
-import todoList from "./components/TodoList";
+import SearchAppBar from "./components/SearchAppBar";
+import {Container, Grid, Paper} from "@mui/material";
 
 export type TaskType = {
     id: string
@@ -67,7 +68,8 @@ function App() {
     }
 
     const changeStatus = (tlId: string, id: string, newIsDone: boolean) => {
-        setTasks({...tasks, [tlId]: tasks[tlId]
+        setTasks({
+            ...tasks, [tlId]: tasks[tlId]//tlID - todoListID1 or todoListID2
               .map(t => t.id === id ? {...t, isDone: newIsDone} : t)
         })
     }
@@ -79,14 +81,15 @@ function App() {
         setTasks({[newTodoListId]: [], ...tasks})
     }
 
-    const changeTaskTitle = (tlId: string, id: string, newTitle:string) => {
-        setTasks({...tasks, [tlId]: tasks[tlId]
-              .map(t => t.id === id ? {...t, title:newTitle} : t)
+    const changeTaskTitle = (tlId: string, id: string, newTitle: string) => {
+        setTasks({
+            ...tasks, [tlId]: tasks[tlId]
+              .map(t => t.id === id ? {...t, title: newTitle} : t)
         })
     }
 
     const changeTodoListTitle = (tlId: string, newTitle: string) => {
-        const todolist = todolists.find(tl=>tl.id===tlId)
+        const todolist = todolists.find(tl => tl.id === tlId)
         if (todolist) {
             todolist.title = newTitle
             setTodolists([...todolists])
@@ -95,34 +98,45 @@ function App() {
 
     return (
       <div className={'App'}>
-          <AddItemForm addItem={addTodoList}/>
-          {todolists.map(tl => {
-              let tasksForTodoList = tasks[tl.id];//todoListID1 or todoListID2
-              switch (tl.filter) {
-                  case 'active':
-                      tasksForTodoList = tasks[tl.id].filter(t => !t.isDone)
-                      break
-                  case 'completed':
-                      tasksForTodoList = tasks[tl.id].filter(t => t.isDone)
-                      break
-              }
+          <SearchAppBar/>
 
-              return (
-                <TodoList
-                  key={tl.id}
-                  tlId={tl.id}
-                  title={tl.title}
-                  filter={tl.filter}
-                  tasks={tasksForTodoList}
-                  addTask={addTask}
-                  removeTask={removeTask}
-                  changeFilter={changeFilter}
-                  changeStatus={changeStatus}
-                  changeTaskTitle={changeTaskTitle}
-                  changeTodoListTitle={changeTodoListTitle}
-                />
-              )
-          })}
+          <Container fixed>
+              <Grid container style={{padding:'20px'}}>
+                  <AddItemForm addItem={addTodoList}/>
+              </Grid>
+              <Grid container spacing={5}>
+                  {todolists.map(tl => {
+                      let tasksForTodoList = tasks[tl.id];//todoListID1 or todoListID2
+                      switch (tl.filter) {
+                          case 'active':
+                              tasksForTodoList = tasks[tl.id].filter(t => !t.isDone)
+                              break
+                          case 'completed':
+                              tasksForTodoList = tasks[tl.id].filter(t => t.isDone)
+                              break
+                      }
+
+                      return <Grid item>
+                          <Paper  elevation={6} style={{padding:'10px'}}>
+                              <TodoList
+                                key={tl.id}
+                                tlId={tl.id}
+                                title={tl.title}
+                                filter={tl.filter}
+                                tasks={tasksForTodoList}
+                                addTask={addTask}
+                                removeTask={removeTask}
+                                changeFilter={changeFilter}
+                                changeStatus={changeStatus}
+                                changeTaskTitle={changeTaskTitle}
+                                changeTodoListTitle={changeTodoListTitle}
+                              />
+                          </Paper>
+                      </Grid>
+                  })}
+              </Grid>
+          </Container>
+
       </div>
     )
 }
