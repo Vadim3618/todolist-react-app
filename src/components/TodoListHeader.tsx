@@ -1,9 +1,12 @@
 import React from 'react';
 import {EditableSpan} from "./EditableSpan";
+import {Delete} from "@mui/icons-material";
+import {IconButton} from "@mui/material";
 
 type TodoListHeaderPropsType = {
     tlId: string
     title: string
+    callback: () => void
     changeTodoListTitle: (tlId: string, newValue: string) => void
 }
 
@@ -14,9 +17,16 @@ const TodoListHeader = (props: TodoListHeaderPropsType) => {
     }
 
     return (
-      <h3>
-          <EditableSpan title={props.title} onChange={onChangeTodoTitle}/>
-      </h3>
+      <>
+
+          <EditableSpan fontWeight={'700'} fontSize={'26px'}
+            title={props.title} onChange={onChangeTodoTitle}/>
+
+          <IconButton>
+              <Delete fontSize={"small"}
+                      onClick={props.callback}/>
+          </IconButton>
+      </>
     );
 };
 

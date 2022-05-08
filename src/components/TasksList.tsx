@@ -4,9 +4,6 @@ import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
-
-
-
 type TasksListPropsType = {
     tlId: string
     tasks: Array<TaskType>
@@ -32,10 +29,13 @@ export const TasksList: React.FC<TasksListPropsType> = (props) => {
 
               return (
                 <li key={t.id}>
-                    <Checkbox onChange={e => onChangeStatusHandler(t.id, e)} checked={t.isDone} color={"info"}/>
-                    <EditableSpan title={t.title} onChange={onChangeTaskTitle}/>
+                    <Checkbox onChange={e => onChangeStatusHandler(t.id, e)}
+                              checked={t.isDone} color={"info"}/>
+                    <EditableSpan title={t.title} onChange={onChangeTaskTitle}
+                                  isDone={t.isDone}/>
                     <IconButton>
-                        <Delete fontSize={"small"} onClick={() => onClickRemoveHandler(t.id)}/>
+                        <Delete fontSize={"small"}
+                                onClick={() => onClickRemoveHandler(t.id)}/>
                     </IconButton>
                 </li>)
           })}

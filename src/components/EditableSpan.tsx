@@ -4,6 +4,9 @@ import {TextField} from "@mui/material";
 type EditableSpanType = {
     title: string
     onChange: (newValue: string) => void
+    fontWeight?: string
+    fontSize?:string
+    isDone?:boolean
 }
 
 export const EditableSpan = (props: EditableSpanType) => {
@@ -29,6 +32,8 @@ export const EditableSpan = (props: EditableSpanType) => {
         ? <TextField value={title} autoFocus onBlur={activateViewMode}
                      onChange={onChangeHandler} label="Change"
                      variant="outlined" color={"info"}/>
-        : <span onDoubleClick={activateEditMode}>{props.title}</span>
+        : <span
+          style={props.isDone? {textDecoration:'line-through'} :{fontWeight:props.fontWeight, fontSize:props.fontSize}}
+          onDoubleClick={activateEditMode}>{props.title}</span>
     );
 };

@@ -1,5 +1,6 @@
 .App {
     background-color: rgba(172, 213, 255, 0.23);
+    min-height: 1100px;
 }
 
 /*.App > div {*/

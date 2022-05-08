@@ -12,6 +12,7 @@ type TodoListPropsType = {
     tasks: Array<TaskType>
     removeTask: (tlId: string, id: string) => void
     addTask: (tlId: string, title: string) => void
+    removeTodoList: (tlId: string) => void
     changeFilter: (tlId: string, filter: FilterValueType) => void
     changeStatus: (tlId: string, id: string, isDone: boolean) => void
     changeTaskTitle: (tlId: string, id: string, newValue: string) => void
@@ -28,11 +29,17 @@ const TodoList = (props: TodoListPropsType) => {
         props.addTask(props.tlId, title)
     }
 
+    const onClickRemoveHandler = (tlId: string) => {
+        props.removeTodoList(tlId)
+    }
+
     return (
       <div>
           <TodoListHeader changeTodoListTitle={props.changeTodoListTitle}
-                          tlId={props.tlId} title={props.title}/>
-          <AddItemForm addItem={addTask}/>
+                          tlId={props.tlId} title={props.title}
+                          callback={() => onClickRemoveHandler(props.tlId)}
+          />
+          <AddItemForm title={'Add New Task'} addItem={addTask}/>
           <TasksList tasks={props.tasks}
                      removeTask={props.removeTask}
                      changeStatus={props.changeStatus}
@@ -41,23 +48,16 @@ const TodoList = (props: TodoListPropsType) => {
           />
           <div>
               <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                  <Button style={{width:'100px'}} color={"info"} variant={props.filter === 'all' ? 'text' : 'contained'}
+                  <Button style={{width: '100px'}} color={"info"}
+                          variant={props.filter === 'all' ? 'text' : 'contained'}
                           onClick={() => changeFilterHandler('all')}>All</Button>
-                  <Button style={{width:'100px'}} color={"info"} variant={props.filter === 'active' ? 'text' : 'contained'}
+                  <Button style={{width: '100px'}} color={"info"}
+                          variant={props.filter === 'active' ? 'text' : 'contained'}
                           onClick={() => changeFilterHandler('active')}>Active</Button>
-                  <Button style={{width:'100px'}} color={"info"} variant={props.filter === 'completed' ? 'text' : 'contained'}
+                  <Button style={{width: '100px'}} color={"info"}
+                          variant={props.filter === 'completed' ? 'text' : 'contained'}
                           onClick={() => changeFilterHandler('completed')}>Finished</Button>
               </ButtonGroup>
-
-              {/*<Button className={props.filter === 'all' ? 'active-filter' : ''}*/}
-              {/*        name={'All'}*/}
-              {/*        callback={() => changeFilterHandler('all')}/>*/}
-              {/*<Button className={props.filter === 'active' ? 'active-filter' : ''}*/}
-              {/*        name={'Active'}*/}
-              {/*        callback={() => changeFilterHandler('active')}/>*/}
-              {/*<Button className={props.filter === 'completed' ? 'active-filter' : ''}*/}
-              {/*        name={'Completed'}*/}
-              {/*        callback={() => changeFilterHandler('completed')}/>*/}
           </div>
       </div>
     );
