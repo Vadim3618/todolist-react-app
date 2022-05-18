@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import {memo} from "react";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -51,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function SearchAppBar() {
+ const SearchAppBar =memo(() => {
     return (
       <Box sx={{ flexGrow: 1 }}>
           <AppBar color={"default"} position="static">
@@ -86,4 +87,5 @@ export default function SearchAppBar() {
           </AppBar>
       </Box>
     );
-}
+})
+export default SearchAppBar

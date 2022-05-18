@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo, useCallback} from 'react';
 import {FilterValueType, TaskType} from "../App";
 import TodoListHeader from "./TodoListHeader";
 import {TasksList} from "./TasksList";
@@ -19,18 +19,26 @@ type TodoListPropsType = {
     changeTodoListTitle: (tlId: string, newValue: string) => void
 }
 
-const TodoList = (props: TodoListPropsType) => {
-
-    const changeFilterHandler = (filter: FilterValueType) => {
+const TodoList = memo((props: TodoListPropsType) => {
+    console.log('TodoList')
+    const changeFilterHandler = useCallback((filter: FilterValueType) => {
         props.changeFilter(props.tlId, filter)
-    }
+    }, [props.changeFilter, props.tlId])
 
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         props.addTask(props.tlId, title)
-    }
+    }, [props.addTask, props.tlId])
 
-    const onClickRemoveHandler = (tlId: string) => {
+    const onClickRemoveHandler = useCallback((tlId: string) => {
         props.removeTodoList(tlId)
+    }, [props.removeTodoList])
+
+    let tasksForTodoList = props.tasks//todoListID1 or todoListID2
+    if (props.filter === 'active') {
+        tasksForTodoList = tasksForTodoList.filter(t => !t.isDone)
+    }
+    if (props.filter === 'completed') {
+        tasksForTodoList = tasksForTodoList.filter(t => t.isDone)
     }
 
     return (
@@ -41,6 +49,7 @@ const TodoList = (props: TodoListPropsType) => {
           />
           <AddItemForm title={'Add New Task'} addItem={addTask}/>
           <TasksList tasks={props.tasks}
+                     tasksForTodoList={tasksForTodoList}
                      removeTask={props.removeTask}
                      changeStatus={props.changeStatus}
                      tlId={props.tlId}
@@ -61,7 +70,7 @@ const TodoList = (props: TodoListPropsType) => {
           </div>
       </div>
     );
-};
+})
 
 export default TodoList;
 

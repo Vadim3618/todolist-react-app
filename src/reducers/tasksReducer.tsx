@@ -10,22 +10,22 @@ type ActionType = addTaskActionType | removeTaskActionType
 export const todoListID1 = v1()
 export const todoListID2 = v1()
 
-let initState: TaskObjectType = {
-    [todoListID1]: [
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false},
-        {id: v1(), title: "Rest API", isDone: false},
-        {id: v1(), title: "GraphQL", isDone: false},
-    ],
-    [todoListID2]: [
-        {id: v1(), title: "apartment", isDone: true},
-        {id: v1(), title: "car", isDone: true},
-        {id: v1(), title: "yacht", isDone: false},
-        {id: v1(), title: "airplane", isDone: false},
-    ]
-};
-
+// let initState: TaskObjectType = {
+//     [todoListID1]: [
+//         {id: v1(), title: "HTML&CSS", isDone: true},
+//         {id: v1(), title: "JS", isDone: true},
+//         {id: v1(), title: "ReactJS", isDone: false},
+//         {id: v1(), title: "Rest API", isDone: false},
+//         {id: v1(), title: "GraphQL", isDone: false},
+//     ],
+//     [todoListID2]: [
+//         {id: v1(), title: "apartment", isDone: true},
+//         {id: v1(), title: "car", isDone: true},
+//         {id: v1(), title: "yacht", isDone: false},
+//         {id: v1(), title: "airplane", isDone: false},
+//     ]
+// };
+let initState: TaskObjectType = {}
 export const TasksReducer = (state=initState, action: ActionType):
   TaskObjectType => {
     switch (action.type) {
