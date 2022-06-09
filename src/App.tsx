@@ -9,16 +9,41 @@ import {Container, Grid, Paper} from "@mui/material";
 import {AddItemForm} from "./components/AddItemForm";
 import TodoList from "./components/TodoList";
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
+export enum TaskStatuses {
+	New = 0,
+	InProgress = 1,
+	Completed = 2,
+	Draft = 3,
 }
 
-export type TodolistsType = {
-    id: string
-    title: string
-    filter: FilterValueType
+export enum TaskPriorities {
+	Low = 0,
+	Middle = 1,
+	Hi = 2,
+	Urgently = 3,
+	Later = 4
+}
+
+export type TodoListType = {
+	id: string
+	title: string
+	addedDate: string
+	order: number
+}
+
+export type TodoListDomainType = TodoListType & { filter: FilterValueType }
+
+export type TaskType = {
+	description: string
+	title: string
+	status: number
+	priority: number
+	startDate: string
+	deadline: string
+	id: string
+	todoListId: string
+	order: number
+	addedDate: string
 }
 
 export type TaskObjectType = {
@@ -27,9 +52,9 @@ export type TaskObjectType = {
 
 export type FilterValueType = 'all' | 'completed' | 'active'
 
-const App = memo(() => {
+const App = () => {
 
-    const todolists = useSelector<RootReducerType, TodolistsType[]>(
+    const todolists = useSelector<RootReducerType, TodoListDomainType[]>(
       state => state.todolists
     )
     const tasks = useSelector<RootReducerType, TaskObjectType>(
@@ -47,10 +72,9 @@ const App = memo(() => {
         dispatch(removeTodoListAC(tlId))
     }, [dispatch])
     const addTask = useCallback((tlId: string, title: string) => {
-        console.log(12)
         dispatch(addTaskAC(tlId, title))
     }, [dispatch])
-    const changeStatus = useCallback((tlId: string, id: string, newIsDone: boolean) => {
+    const changeStatus = useCallback((tlId: string, id: string, newIsDone: TaskStatuses) => {
         dispatch(changeTaskStatusAC(tlId, id, newIsDone))
     }, [dispatch])
     const addTodoList = useCallback((title: string) => {
@@ -95,7 +119,7 @@ const App = memo(() => {
 
       </div>
     )
-})
+}
 
 export default App;
 

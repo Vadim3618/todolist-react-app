@@ -1,12 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useCallback, useState} from "react";
 import {TextField} from "@mui/material";
+import {TaskStatuses} from "../App";
 
 type EditableSpanType = {
     title: string
     onChange: (newValue: string) => void
     fontWeight?: string
     fontSize?:string
-    isDone?:boolean
+    isDone?:TaskStatuses
 }
 
 export const EditableSpan = memo((props: EditableSpanType) => {

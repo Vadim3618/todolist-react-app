@@ -1,5 +1,5 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
-import {TaskType, TodolistsType} from "../App";
+import {TaskStatuses, TaskType} from "../App";
 import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
@@ -10,7 +10,7 @@ type TasksListPropsType = {
     tasks: Array<TaskType>
     tasksForTodoList: Array<TaskType>
     removeTask: (tlId: string, id: string) => void
-    changeStatus: (tlId: string, id: string, isDone: boolean) => void
+    changeStatus: (tlId: string, id: string, isDone: TaskStatuses) => void
     changeTaskTitle: (tlId: string, id: string, newValue: string) => void
 }
 
