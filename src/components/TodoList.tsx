@@ -1,9 +1,12 @@
-import React, {memo, useCallback} from 'react';
-import {FilterValueType, TaskStatuses, TaskType} from "../App";
+import React, {memo, useCallback, useEffect} from 'react';
 import TodoListHeader from "./TodoListHeader";
 import {TasksList} from "./TasksList";
 import {AddItemForm} from "./AddItemForm";
 import {Button, ButtonGroup} from "@mui/material";
+import {FilterValueType, TaskStatuses, TaskType} from "../common/types";
+import {useDispatch} from "react-redux";
+import {fetchTasksTC} from "../reducers/tasksReducer";
+import {useAppDispatch} from "../reducers/hooks";
 
 type TodoListPropsType = {
 	tlId: string
@@ -20,7 +23,14 @@ type TodoListPropsType = {
 }
 
 const TodoList = memo((props: TodoListPropsType) => {
-	console.log('TodoList')
+
+	const dispatch = useAppDispatch()
+
+	useEffect(()=>{
+		dispatch(fetchTasksTC(props.tlId))
+	},[])
+
+
 	const changeFilterHandler = useCallback((filter: FilterValueType) => {
 		props.changeFilter(props.tlId, filter)
 	}, [props.changeFilter, props.tlId])
