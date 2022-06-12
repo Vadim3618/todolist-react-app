@@ -1,3 +1,9 @@
+import {TasksActionType} from "../reducers/tasksReducer";
+import {TodosActionType} from "../reducers/todoListsReducer";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
+import {rootReducer, store} from "../reducers/store";
+
 export enum TaskStatuses {
 	New = 0,
 	InProgress = 1,
@@ -20,7 +26,12 @@ export type TodoListType = {
 	order: number
 }
 
-export type TodoListDomainType = TodoListType & { filter: FilterValueType }
+export type TodoListDomainType = TodoListType & {
+	filter: FilterValueType
+	entityStatus: RequestStatusType
+}
+
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type TaskType = {
 	description: string
@@ -47,15 +58,26 @@ export type ResponseType<D = {}> = {
 }
 
 export type UpdateTaskModelType = {
-	title: string
-	description: string
-	status: TaskStatuses
-	priority: TaskPriorities
-	startDate: string
-	deadline: string
+	title?: string
+	description?: string
+	status?: TaskStatuses
+	priority?: TaskPriorities
+	startDate?: string
+	deadline?: string
 }
+
 export type GetTasksResponse = {
 	error: string | null
 	totalCount: number
 	items: TaskType[]
 }
+
+export type RootReducerType = ReturnType<typeof rootReducer>
+
+export type AppActionsType = TasksActionType | TodosActionType
+
+export type RootState = ReturnType<typeof store.getState>
+
+export type AppDispatch = ThunkDispatch<RootState, unknown, AppActionsType>
+
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>

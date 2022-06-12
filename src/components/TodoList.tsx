@@ -3,8 +3,7 @@ import TodoListHeader from "./TodoListHeader";
 import {TasksList} from "./TasksList";
 import {AddItemForm} from "./AddItemForm";
 import {Button, ButtonGroup} from "@mui/material";
-import {FilterValueType, TaskStatuses, TaskType} from "../common/types";
-import {useDispatch} from "react-redux";
+import {FilterValueType, RequestStatusType, TaskStatuses, TaskType} from "../common/types";
 import {fetchTasksTC} from "../reducers/tasksReducer";
 import {useAppDispatch} from "../reducers/hooks";
 
@@ -13,6 +12,7 @@ type TodoListPropsType = {
 	title: string
 	filter: FilterValueType
 	tasks: Array<TaskType>
+	entityStatus: RequestStatusType
 	removeTask: (tlId: string, id: string) => void
 	addTask: (tlId: string, title: string) => void
 	removeTodoList: (tlId: string) => void
@@ -26,9 +26,9 @@ const TodoList = memo((props: TodoListPropsType) => {
 
 	const dispatch = useAppDispatch()
 
-	useEffect(()=>{
+	useEffect(() => {
 		dispatch(fetchTasksTC(props.tlId))
-	},[])
+	}, [])
 
 
 	const changeFilterHandler = useCallback((filter: FilterValueType) => {
@@ -53,11 +53,13 @@ const TodoList = memo((props: TodoListPropsType) => {
 
 	return (
 		<div>
-			<TodoListHeader changeTodoListTitle={props.changeTodoListTitle}
+			<TodoListHeader entityStatus={props.entityStatus}
+			                changeTodoListTitle={props.changeTodoListTitle}
 			                tlId={props.tlId} title={props.title}
 			                callback={() => onClickRemoveHandler(props.tlId)}
 			/>
-			<AddItemForm title={'Add New Task'} addItem={addTask}/>
+			<AddItemForm entityStatus={props.entityStatus}
+				title={'Add New Task'} addItem={addTask}/>
 			<TasksList tasks={props.tasks}
 			           tasksForTodoList={tasksForTodoList}
 			           removeTask={props.removeTask}
