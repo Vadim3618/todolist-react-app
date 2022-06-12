@@ -1,7 +1,15 @@
 import React from 'react';
 import {v1} from "uuid";
 import {addTodoListACType, removeTodoListACType, setTodolistActionType} from "./todoListsReducer";
-import {AppThunk, RootReducerType, TaskObjectType, TaskStatuses, TaskType, UpdateTaskModelType} from "../common/types";
+import {
+	AppThunk,
+	RequestStatusType,
+	RootReducerType,
+	TaskObjectType,
+	TaskStatuses,
+	TaskType,
+	UpdateTaskModelType
+} from "../common/types";
 import {todolistsAPI} from "../api/todolist-api";
 import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
 import {AxiosError} from "axios";
@@ -10,6 +18,7 @@ export type TasksActionType = addTaskActionType | removeTaskActionType
 	| changeTaskStatusActionType | changeTaskTitleActionType
 	| removeTodoListACType
 	| addTodoListACType | setTodolistActionType | fetchTasksActionType
+	| changeTodolistEntityStatusActionType
 
 export const todoListID1 = v1()
 export const todoListID2 = v1()
@@ -18,6 +27,12 @@ let initState: TaskObjectType = {}
 export const TasksReducer = (state = initState, action: TasksActionType):
 	TaskObjectType => {
 	switch (action.type) {
+		case "TASK/CHANGE_TASK_ENTITY_STATUS":
+			return {
+				...state, [action.todoId]: state[action.todoId].map(t => {
+					return t.id === action.taskId ? {...t, entityStatus: action.entityStatus} : t
+				})
+			}
 		case "TASK/FETCH_TASKS":
 			return {
 				...state, [action.todoId]: action.tasks
@@ -96,10 +111,10 @@ const fetchTasksAC = (todoId: string, tasks: TaskType[]) => {
 	return {type: 'TASK/FETCH_TASKS', todoId, tasks} as const
 }
 //для блокировки кнопки удаления таски
-// type changeTodolistEntityStatusActionType = ReturnType<typeof changeTodolistEntityStatusAC>
-// const changeTodolistEntityStatusAC = (todoId: string, taskId: string, entityStatus: RequestStatusType) => {
-// 	return {type: 'TASK/CHANGE_TASK_ENTITY_STATUS', todoId, taskId, entityStatus} as const
-// }
+type changeTodolistEntityStatusActionType = ReturnType<typeof changeTaskEntityStatusAC>
+const changeTaskEntityStatusAC = (todoId: string, taskId: string, entityStatus: RequestStatusType) => {
+	return {type: 'TASK/CHANGE_TASK_ENTITY_STATUS', todoId, taskId, entityStatus} as const
+}
 
 //thunks
 export const fetchTasksTC = (todoId: string): AppThunk => (dispatch) => {
@@ -117,6 +132,7 @@ export const fetchTasksTC = (todoId: string): AppThunk => (dispatch) => {
 
 export const removeTaskTC = (todoId: string, taskId: string): AppThunk => (dispatch) => {
 	dispatch(setAppStatusAC('loading'))
+	dispatch(changeTaskEntityStatusAC(todoId, taskId, 'loading'))
 	todolistsAPI.deleteTask(todoId, taskId)
 		.then(res => {
 			res.data.resultCode === 0

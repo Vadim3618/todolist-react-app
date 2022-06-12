@@ -30,7 +30,6 @@ const TodoList = memo((props: TodoListPropsType) => {
 		dispatch(fetchTasksTC(props.tlId))
 	}, [])
 
-
 	const changeFilterHandler = useCallback((filter: FilterValueType) => {
 		props.changeFilter(props.tlId, filter)
 	}, [props.changeFilter, props.tlId])
@@ -59,7 +58,7 @@ const TodoList = memo((props: TodoListPropsType) => {
 			                callback={() => onClickRemoveHandler(props.tlId)}
 			/>
 			<AddItemForm entityStatus={props.entityStatus}
-				title={'Add New Task'} addItem={addTask}/>
+			             title={'Add New Task'} addItem={addTask}/>
 			<TasksList tasks={props.tasks}
 			           tasksForTodoList={tasksForTodoList}
 			           removeTask={props.removeTask}

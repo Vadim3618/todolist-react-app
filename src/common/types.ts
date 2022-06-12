@@ -31,6 +31,10 @@ export type TodoListDomainType = TodoListType & {
 	entityStatus: RequestStatusType
 }
 
+export type TaskDomainType = TaskType & {
+	entityStatus: RequestStatusType
+}
+
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type TaskType = {
@@ -46,7 +50,7 @@ export type TaskType = {
 	addedDate: string
 }
 
-export type TaskObjectType = { [key: string]: TaskType[] }
+export type TaskObjectType = { [key: string]: TaskDomainType[] }
 
 export type FilterValueType = 'all' | 'completed' | 'active'
 

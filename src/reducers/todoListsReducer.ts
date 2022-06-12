@@ -56,7 +56,6 @@ export const removeTodoListAC = (tlId: string) => {
 	return {
 		type: "TODO/REMOVE_TODOLIST", tlId
 	} as const
-
 }
 
 type changeTodoListTitleACType = ReturnType<typeof changeTodoListTitleAC>

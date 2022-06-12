@@ -3,6 +3,7 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "../common/types";
+import {useAppSelector} from "../reducers/hooks";
 
 type TaskPropsType = {
 	tlId: string
@@ -14,6 +15,9 @@ type TaskPropsType = {
 }
 
 export const Task = memo((props: TaskPropsType) => {
+
+	const entityStatus = useAppSelector(state => state.tasks[props.tlId])
+		.find(t => t.id === props.task.id)!.entityStatus
 
 	const onClickRemoveHandler = () => {
 		props.removeTask(props.tlId, props.task.id)
@@ -34,7 +38,7 @@ export const Task = memo((props: TaskPropsType) => {
 			          checked={props.task.status === TaskStatuses.Completed} color={"info"}/>
 			<EditableSpan title={props.task.title} onChange={onChangeTaskTitle}
 			              isDone={props.task.status}/>
-			<IconButton onClick={() => onClickRemoveHandler()}>
+			<IconButton disabled={entityStatus === 'loading'} onClick={() => onClickRemoveHandler()}>
 				<Delete fontSize={"small"}
 				/>
 			</IconButton>
