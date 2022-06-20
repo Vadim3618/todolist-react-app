@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {AppThunk, FilterValueType, RequestStatusType, TodoListDomainType, TodoListType} from "../common/types";
-import {todolistsAPI} from "../api/todolist-api";
-import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
+import {todolistsAPI} from "../api/api";
+import {setAppErrorAC, setAppStatusAC} from "./appReducer";
 import {AxiosError} from "axios";
 
 export type TodosActionType = removeTodoListACType

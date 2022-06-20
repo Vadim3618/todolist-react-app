@@ -3,7 +3,7 @@ import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {IconButton} from "@mui/material";
 import {RequestStatusType} from "../common/types";
-import {useAppSelector} from "../reducers/hooks";
+import {useAppSelector} from "../common/hooks";
 
 type TodoListHeaderPropsType = {
 	tlId: string

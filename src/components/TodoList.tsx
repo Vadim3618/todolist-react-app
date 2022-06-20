@@ -5,7 +5,7 @@ import {AddItemForm} from "./AddItemForm";
 import {Button, ButtonGroup} from "@mui/material";
 import {FilterValueType, RequestStatusType, TaskStatuses, TaskType} from "../common/types";
 import {fetchTasksTC} from "../reducers/tasksReducer";
-import {useAppDispatch} from "../reducers/hooks";
+import {useAppDispatch} from "../common/hooks";
 
 type TodoListPropsType = {
 	tlId: string

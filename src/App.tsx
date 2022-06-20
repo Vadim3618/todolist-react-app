@@ -1,99 +1,76 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import SearchAppBar from "./components/SearchAppBar";
-import {addTodolistTC, ChangeTodoTitleTC, fetchTodosTC, filterAC, removeTodolistTC} from "./reducers/todoListsReducer";
-import {addTaskTC, removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from "./reducers/tasksReducer";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import LinearProgress from "@mui/material/LinearProgress";
-import Paper from "@mui/material/Paper";
-import {AddItemForm} from "./components/AddItemForm";
-import TodoList from "./components/TodoList";
-import {FilterValueType, TaskStatuses} from "./common/types";
-import {useAppDispatch, useAppSelector} from "./reducers/hooks";
 import {ErrorSnackbar} from "./components/errorSnackbar/errorSnackbar";
+import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
+import {AppBar, Button, CircularProgress} from '@mui/material';
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import {Menu} from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
+import {TodolistsList} from "./components/TodolistsList";
+import {Login} from "./features/Login";
+import {useAppDispatch, useAppSelector} from "./common/hooks";
+import {initializeAppTC} from "./reducers/appReducer";
+import { logoutTC } from './reducers/authReducer';
 
 
-const App = () => {
-
+export const App = () => {
 	const status = useAppSelector(state => state.app.status)
-	const todolists = useAppSelector(state => state.todolists)
-	const tasks = useAppSelector(state => state.tasks)
+	//initialized знает пронициализированы ли мы
+	const initialized = useAppSelector(state => state.app.isInitialized)
+	const isLoggedIn = useAppSelector(state => state.auth.isLoginIn)
+
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		dispatch(fetchTodosTC())
+		dispatch(initializeAppTC())
 	}, [])
 
-	const changeFilter = useCallback((tlId: string, filter: FilterValueType) => {
-		dispatch(filterAC(tlId, filter))
-	}, [dispatch])
+	const logoutHandler = useCallback(() => {
+		dispatch(logoutTC())//вылогиниваемся и убиваем куку
+	}, [])
 
-	const removeTask = useCallback((todoId: string, taskId: string) => {
-		dispatch(removeTaskTC(todoId, taskId))
-	}, [dispatch])
-
-	const removeTodoList = useCallback((todoId: string) => {
-		dispatch(removeTodolistTC(todoId))
-	}, [dispatch])
-
-	const addTask = useCallback((todoID: string, title: string) => {
-		dispatch(addTaskTC(todoID, title))
-	}, [dispatch])
-
-	const changeStatus = useCallback((tlId: string, id: string, newIsDone: TaskStatuses) => {
-		dispatch(updateTaskStatusTC(tlId, id, newIsDone))
-	}, [dispatch])
-
-	const changeTaskTitle = useCallback((tlId: string, id: string, newTitle: string) => {
-		dispatch(updateTaskTitleTC(tlId, id, newTitle))
-	}, [dispatch])
-
-	const addTodoList = useCallback((title: string) => {
-		dispatch(addTodolistTC(title))
-	}, [dispatch])
-
-	const changeTodoListTitle = useCallback((todoId: string, newTitle: string) => {
-		dispatch(ChangeTodoTitleTC(todoId, newTitle))
-	}, [dispatch])
+	if (!initialized) {
+		return <div style={{position: 'fixed', top: '30%', width: '100%', textAlign: 'center'}}>
+			<CircularProgress/>
+		</div>
+	}
 
 	return (
-		<div className={'App'}>
-			<SearchAppBar/>
-			{status === 'loading' && <LinearProgress/>
-			}
-			<Container fixed>
-				<Grid container style={{padding: '20px'}}>
-					<AddItemForm title={'Add New TodoList'} addItem={addTodoList}/>
-				</Grid>
-				<Grid container spacing={5}>
-					{todolists.map(tl => {
-						return <Grid key={tl.id} item>
-							<Paper elevation={6} style={{padding: '10px'}}>
-								<TodoList
-									key={tl.id}
-									tlId={tl.id}
-									title={tl.title}
-									filter={tl.filter}
-									tasks={tasks[tl.id]}
-									entityStatus={tl.entityStatus}
-									addTask={addTask}
-									removeTask={removeTask}
-									changeFilter={changeFilter}
-									changeStatus={changeStatus}
-									removeTodoList={removeTodoList}
-									changeTaskTitle={changeTaskTitle}
-									changeTodoListTitle={changeTodoListTitle}
-								/>
-							</Paper>
-						</Grid>
-					})}
-				</Grid>
-			</Container>
-			<ErrorSnackbar/>
-		</div>
+		<BrowserRouter>
+			<div className={'App'}>
+				<ErrorSnackbar/>
+				<AppBar position="static">
+					<Toolbar>
+						<IconButton edge="start" color="inherit" aria-label="menu">
+							<Menu/>
+						</IconButton>
+						<Typography variant="h6">
+							News
+						</Typography>
+						{isLoggedIn && <Button onClick={logoutHandler} color="inherit">Log out</Button>}
+					</Toolbar>
+					{status === 'loading' && <LinearProgress/>}
+				</AppBar>
+				<Container fixed>
+					<Routes>
+						<Route path={'/'} element={<TodolistsList/>}/>
+						<Route path={'login'} element={<Login/>}/>
+						<Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+						<Route path="*" element={<Navigate to='/404'/>}/>
+					</Routes>
+				</Container>
+			</div>
+		</BrowserRouter>
 	)
 }
 
-export default App;
+
+
+
+
+
+
 

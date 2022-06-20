@@ -10,8 +10,8 @@ import {
 	TaskType,
 	UpdateTaskModelType
 } from "../common/types";
-import {todolistsAPI} from "../api/todolist-api";
-import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
+import {todolistsAPI} from "../api/api";
+import {setAppErrorAC, setAppStatusAC} from "./appReducer";
 import {AxiosError} from "axios";
 
 export type TasksActionType = addTaskActionType | removeTaskActionType

@@ -3,7 +3,7 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "../common/types";
-import {useAppSelector} from "../reducers/hooks";
+import {useAppSelector} from "../common/hooks";
 
 type TaskPropsType = {
 	tlId: string
