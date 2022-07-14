@@ -20,16 +20,16 @@ export const Task = memo((props: TaskPropsType) => {
 		.find(t => t.id === props.task.id)!.entityStatus
 
 	const onClickRemoveHandler = () => {
-		props.removeTask(props.tlId, props.task.id)
+			props.removeTask(props.tlId, props.task.id!)
 	}
 
 	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-		props.changeStatus(props.tlId, props.task.id,
+		props.changeStatus(props.tlId, props.task.id!,
 			e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New)
 	}
 
 	const onChangeTaskTitle = useCallback((newValue: string) => {
-		props.changeTaskTitle(props.tlId, props.task.id, newValue)
+		props.changeTaskTitle(props.tlId, props.task.id!, newValue)
 	}, [props.changeTaskTitle, props.tlId, props.task.id])
 
 	return (
