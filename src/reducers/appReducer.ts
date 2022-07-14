@@ -44,8 +44,12 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 			if (res.data.resultCode === 0) {
 				dispatch(setIsLoggedInAC(true))
 			} else {
-				// dispatch(setAppErrorAC(res.data.messages[0]))
+				dispatch(setAppErrorAC(res.data.messages[0]))
 			}
 			dispatch(setAppInitializedAC(true))
+		})
+		.catch(err=>{
+			dispatch(setAppErrorAC(err.message))
+			dispatch(setAppStatusAC('idle'))
 		})
 }

@@ -3,17 +3,14 @@ import './App.css';
 import Container from "@mui/material/Container";
 import LinearProgress from "@mui/material/LinearProgress";
 import {ErrorSnackbar} from "./components/errorSnackbar/errorSnackbar";
-import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {AppBar, Button, CircularProgress} from '@mui/material';
-import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
-import {Menu} from "@mui/icons-material";
-import Typography from "@mui/material/Typography";
 import {TodolistsList} from "./components/TodolistsList";
 import {Login} from "./features/Login";
 import {useAppDispatch, useAppSelector} from "./common/hooks";
 import {initializeAppTC} from "./reducers/appReducer";
-import { logoutTC } from './reducers/authReducer';
+import {logoutTC} from './reducers/authReducer';
 
 
 export const App = () => {
@@ -44,12 +41,6 @@ export const App = () => {
 				<ErrorSnackbar/>
 				<AppBar position="static">
 					<Toolbar>
-						<IconButton edge="start" color="inherit" aria-label="menu">
-							<Menu/>
-						</IconButton>
-						<Typography variant="h6">
-							News
-						</Typography>
 						{isLoggedIn && <Button onClick={logoutHandler} color="inherit">Log out</Button>}
 					</Toolbar>
 					{status === 'loading' && <LinearProgress/>}

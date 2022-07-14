@@ -38,16 +38,16 @@ export type TaskDomainType = TaskType & {
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type TaskType = {
-	description: string
+	description?: string
 	title: string
-	status: number
-	priority: number
-	startDate: string
-	deadline: string
-	id: string
+	status?: number
+	priority?: number
+	startDate?: string
+	deadline?: string
+	id?: string
 	todoListId: string
-	order: number
-	addedDate: string
+	order?: number
+	addedDate?: string
 }
 
 export type TaskObjectType = { [key: string]: TaskDomainType[] }
